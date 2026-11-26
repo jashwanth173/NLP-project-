@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moodline — read the emotion in your words</title>
+<meta name="description" content="Type a sentence and watch a BiGRU model read the emotion inside it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <span class="dot" id="statusDot"></span>
+      <span class="logo">Moodline</span>
+    </div>
+    <div class="top-right">
+      <span class="status-text" id="statusText">connecting…</span>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">◐</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>What is this sentence <em>feeling?</em></h1>
+    <p>A BiGRU network reads your text and scores six emotions.</p>
+  </section>
+
+  <main class="grid">
+
+    <!-- INPUT -->
+    <section class="card input-card">
+      <label class="label" for="textInput">Your text</label>
+      <textarea id="textInput" maxlength="2000" rows="5"
+        placeholder="I can't believe we actually pulled this off…"></textarea>
+
+      <div class="chips" id="chips">
+        <span class="chips-label">Try:</span>
+        <button class="chip" data-text="I can't believe we actually pulled this off, I'm so happy!">😄 joyful</button>
+        <button class="chip" data-text="I miss her so much, the house feels empty without her.">😢 sad</button>
+        <button class="chip" data-text="I am furious that they lied to me again.">😠 angry</button>
+        <button class="chip" data-text="I'm terrified something terrible is going to happen tonight.">😨 scared</button>
+        <button class="chip" data-text="I adore you more than words can say.">❤️ loving</button>
+        <button class="chip" data-text="Wow, I never expected to see you here!">😲 surprised</button>
+      </div>
+
+      <div class="row">
+        <span class="count"><span id="charCount">0</span>/2000</span>
+        <div class="actions">
+          <button class="btn ghost" id="clearBtn" type="button">Clear</button>
+          <button class="btn primary" id="analyzeBtn" type="button" disabled>
+            <span id="btnLabel">Analyze</span> <kbd>⌘↵</kbd>
+          </button>
+        </div>
+      </div>
+      <p class="error" id="errorMsg" hidden role="alert"></p>
+    </section>
+
+    <!-- RESULT -->
+    <section class="card result-card" id="resultCard">
+      <div class="empty" id="emptyState">
+        <div class="empty-ring">✎</div>
+        <p>Your result will appear here.</p>
+      </div>
+
+      <div class="result" id="result" hidden>
+        <div class="verdict">
+          <span class="big-emoji" id="emoji">😄</span>
+          <div>
+            <div class="label">Detected emotion</div>
+            <div class="word" id="word">Joy</div>
+            <div class="conf" id="conf">92.4% confidence</div>
+          </div>
+        </div>
+
+        <div class="viz">
+          <svg id="radar" viewBox="-140 -140 280 280" role="img" aria-label="Emotion radar chart"></svg>
+          <div class="bars" id="bars"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="history" id="historySection" hidden>
+    <div class="history-head">
+      <span class="label">Recent</span>
+      <button class="link" id="clearHistory" type="button">Clear history</button>
+    </div>
+    <ul id="historyList"></ul>
+  </section>
+
+  <footer class="foot">Built with TensorFlow · FastAPI · BiGRU</footer>
+</div>
+<script src="/static/script.js"></script>
+</body>
+</html>
